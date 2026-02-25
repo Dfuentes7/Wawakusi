@@ -24,15 +24,16 @@
             <!-- Título del formulario -->
             <TextView
                 android:id="@+id/tvTitulo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Registro de nuevo usuario"
-                android:textSize="24sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:gravity="center"/>
+                android:gravity="center
+"
+                android:text="Registro de nuevo usuario"
+                android:textColor="@color/naranja"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <!-- Logo centrado -->
             <ImageView
