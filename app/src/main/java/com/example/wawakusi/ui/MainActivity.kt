@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
 import com.example.wawakusi.R
+import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navigationView: NavigationView
     private lateinit var viewPager: ViewPager2
     private lateinit var tvContent: TextView
+    private lateinit var btnVerColeccion: MaterialButton
+
 
     private val handler = Handler()
     private var currentItem = 0 // Mantener el índice actual de la imagen mostrada
@@ -26,7 +29,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        btnVerColeccion = findViewById(R.id.btnVerColeccion)
 
+        btnVerColeccion.setOnClickListener{
+            val intent : Intent = Intent(this,TiendaActivity::class.java )
+            startActivity(intent)
+
+        }
         // Inicializamos el toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
