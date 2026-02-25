@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.PromocionesActivity"
+    android:fitsSystemWindows="true">
+
+    <!-- CONTENIDO -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Toolbar -->
+        <include layout="@layout/toolbar"/>
+
+        <!-- Scrollable content -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Título centrado -->
+                <TextView
+                    android:id="@+id/tvMenuTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Promociones"
+                    android:textColor="@color/black"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="16dp"/>
+
+                <!-- Grid -->
+                <GridLayout
+                    android:id="@+id/gridPromos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="3"
+                    android:alignmentMode="alignMargins"
+                    android:useDefaultMargins="true">
+
+                    <!-- PROMO 1 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_row="0"
+                        android:layout_column="0"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:id="@+id/promo1"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/promo1"
+                                android:contentDescription="promo1" />
+
+                            <TextView
+                                android:id="@+id/titlePromo1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Linen shorts"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"/>
+
+                            <TextView
+                                android:id="@+id/priceOriginal1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$30.00 – $40.00"
+                                android:textSize="12sp"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="4dp"/>
+
+                            <!-- OFERTA corregida (solo menor precio) -->
+                            <TextView
+                                android:id="@+id/offerPrice1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Oferta: $25.50"
+                                android:textSize="14sp"
+                                android:textColor="#e1664b"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- PROMO 2 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_row="0"
+                        android:layout_column="1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:id="@+id/promo2"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/promo2"
+                                android:contentDescription="promo2" />
+
+                            <TextView
+                                android:id="@+id/titlePromo2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Denim jumpsuit"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"/>
+
+                            <TextView
+                                android:id="@+id/priceOriginal2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$132.00 – $135.00"
+                                android:textSize="12sp"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="4dp"/>
+
+                            <TextView
+                                android:id="@+id/offerPrice2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Oferta: $112.20"
+                                android:textSize="14sp"
+                                android:textColor="#e1664b"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- PROMO 3 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_row="1"
+                        android:layout_column="0"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:id="@+id/promo3"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/promo3"
+                                android:contentDescription="promo3" />
+
+                            <TextView
+                                android:id="@+id/titlePromo3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Striped bodysuit"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"/>
+
+                            <TextView
+                                android:id="@+id/priceOriginal3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$35.00 – $37.00"
+                                android:textSize="12sp"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="4dp"/>
+
+                            <TextView
+                                android:id="@+id/offerPrice3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Oferta: $29.75"
+                                android:textSize="14sp"
+                                android:textColor="#e1664b"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- PROMO 4 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_row="1"
+                        android:layout_column="1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:id="@+id/promo4"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/promo4"
+                                android:contentDescription="promo4" />
+
+                            <TextView
+                                android:id="@+id/titlePromo4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Knitted cardigan"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"/>
+
+                            <TextView
+                                android:id="@+id/priceOriginal4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$45.00 – $55.00"
+                                android:textSize="12sp"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="4dp"/>
+
+                            <TextView
+                                android:id="@+id/offerPrice4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Oferta: $38.25"
+                                android:textSize="14sp"
+                                android:textColor="#e1664b"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- PROMO 5 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_row="2"
+                        android:layout_column="0"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:id="@+id/promo5"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/promo5"
+                                android:contentDescription="promo5" />
+
+                            <TextView
+                                android:id="@+id/titlePromo5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Winter jacket"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"/>
+
+                            <TextView
+                                android:id="@+id/priceOriginal5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$60.00 – $68.00"
+                                android:textSize="12sp"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="4dp"/>
+
+                            <TextView
+                                android:id="@+id/offerPrice5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Oferta: $51.00"
+                                android:textSize="14sp"
+                                android:textColor="#e1664b"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- PROMO 6 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_row="2"
+                        android:layout_column="1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:id="@+id/promo6"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/promo6"
+                                android:contentDescription="promo6" />
+
+                            <TextView
+                                android:id="@+id/titlePromo6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Yellow stroller"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"/>
+
+                            <TextView
+                                android:id="@+id/priceOriginal6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$250.00"
+                                android:textSize="12sp"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="4dp"/>
+
+                            <TextView
+                                android:id="@+id/offerPrice6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Oferta: $225.00"
+                                android:textSize="14sp"
+                                android:textColor="#e1664b"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </GridLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- NAVIGATION DRAWER -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu" />
+</androidx.drawerlayout.widget.DrawerLayout>

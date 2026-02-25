@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    tools:context=".ui.RegistroActivity">
+
+    <!-- ScrollView para la vista completa -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Título del formulario -->
+            <TextView
+                android:id="@+id/tvTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registro de nuevo usuario"
+                android:textSize="24sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"/>
+
+            <!-- Logo centrado -->
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/logo"
+                android:layout_gravity="center"
+                android:contentDescription="Logo"/>
+
+            <!-- DNI -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="DNI"
+                android:layout_marginTop="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/naranja"
+                app:hintTextColor="@color/naranja"
+                app:counterMaxLength="8"
+                app:counterEnabled="true"
+                app:counterTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietDni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:maxLength="8"
+                    android:textColor="@color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Apellidos en horizontal -->
+            <LinearLayout
+                android:id="@+id/llayApellidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilApellidoPaterno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Apellido paterno"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxStrokeColor="@color/naranja"
+                    app:hintTextColor="@color/naranja">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietApellidoPaterno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:inputType="textCapWords"
+                        android:nextFocusDown="@id/tietApellidoMaterno"
+                        android:textColor="@color/black"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilApellidoMaterno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Apellido materno"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxStrokeColor="@color/naranja"
+                    app:hintTextColor="@color/naranja">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietApellidoMaterno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:inputType="textCapWords"
+                        android:textColor="@color/black"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Nombres -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNombres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombres"
+                android:layout_marginTop="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/naranja"
+                app:hintTextColor="@color/naranja">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietNombres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="textCapWords"
+                    android:textColor="@color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Celular -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCelular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Celular"
+                android:layout_marginTop="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/naranja"
+                app:hintTextColor="@color/naranja"
+                app:counterMaxLength="9"
+                app:counterEnabled="true"
+                app:counterTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietCelular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="phone"
+                    android:maxLength="9"
+                    android:textColor="@color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Sexo -->
+            <TextView
+                android:id="@+id/tvSexo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sexo:"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/rgSexo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbtMasculino"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Masculino"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:buttonTint="@color/naranja"/>
+
+                <RadioButton
+                    android:id="@+id/rbtFemenino"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Femenino"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:buttonTint="@color/naranja"/>
+
+                <RadioButton
+                    android:id="@+id/rbtNinguno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Prefiero no decirlo"
+                    android:checked="true"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:buttonTint="@color/naranja"/>
+            </RadioGroup>
+
+            <!-- Correo -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Correo"
+                android:layout_marginTop="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/naranja"
+                app:hintTextColor="@color/naranja"
+                app:suffixText="@idat.pe"
+                app:suffixTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietCorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Contraseña -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilClave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña"
+                android:layout_marginTop="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/naranja"
+                app:hintTextColor="@color/naranja"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/naranja">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    android:textColor="@color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Checkbox Términos -->
+            <CheckBox
+                android:id="@+id/chkTyc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Acepto los términos y condiciones y la política de privacidad"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                android:buttonTint="@color/naranja"/>
+
+            <!-- Botón Guardar -->
+            <Button
+                android:id="@+id/btnGuardar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar datos"
+                android:textColor="@color/blanco"
+                android:backgroundTint="@color/naranja"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

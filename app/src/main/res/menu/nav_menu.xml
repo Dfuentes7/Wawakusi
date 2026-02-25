@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/outline_add_home_24"
+            android:title="Inicio" />
+
+        <item
+            android:id="@+id/nav_nosotros"
+            android:icon="@drawable/nosotros"
+            android:title="Nosotros" />
+        <item
+            android:id="@+id/nav_tienda"
+            android:icon="@drawable/tienda"
+            android:title="Tienda" />
+
+        <item
+            android:id="@+id/nav_promociones"
+            android:icon="@drawable/promociones"
+            android:title="Promociones" />
+        <item
+            android:id="@+id/nav_contacto"
+            android:icon="@drawable/contacto"
+            android:title="Contacto" />
+
+    </group>
+</menu>
