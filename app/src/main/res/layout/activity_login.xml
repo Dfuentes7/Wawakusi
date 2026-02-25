@@ -48,6 +48,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:text="¡Bienvenido!"
+            android:gravity="center"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -59,6 +60,7 @@
             android:layout_marginBottom="24dp"
             android:alpha="0.6"
             android:text="Inicia sesión para continuar"
+            android:gravity="center"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
