@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Permiso de acceso a Internet -->
@@ -13,6 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Wawakusi">
+
+        <!-- SplashActivity como la actividad principal -->
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- El resto de las actividades -->
         <activity
             android:name=".ui.RegistroActivity"
             android:exported="true" />
@@ -26,23 +37,16 @@
             android:name=".ui.PromocionesActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.SplashActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.NosotrosActivity"
             android:exported="true" />
         <activity
             android:name=".ui.ContactoActivity"
             android:exported="true" />
+
+        <!-- MainActivity ahora no es la principal, pero aún se puede acceder -->
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

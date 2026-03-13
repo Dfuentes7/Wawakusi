@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewPager = findViewById(R.id.viewPager)
 
         // Array de imágenes que se mostrarán en el carrusel
-        val images = intArrayOf(R.drawable.img1, R.drawable.img2, R.drawable.img3)  // Asegúrate de tener estas imágenes en res/drawable
+        val images = intArrayOf(R.drawable.img1, R.drawable.img2, R.drawable.img3)
 
         // Creamos el adaptador y lo asignamos al ViewPager2
         val adapter = ImageSliderAdapter(images)
@@ -98,13 +98,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (id) {
             R.id.nav_home -> {
-                // Actualizar UI localmente en vez de crear intents innecesarios
                 navigationView.setCheckedItem(R.id.nav_home)
                 return true
             }
             R.id.nav_nosotros -> {
                 val iNosotros = Intent(this, NosotrosActivity::class.java)
-                iNosotros.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)  // Opcional
+                iNosotros.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 startActivity(iNosotros)
                 return true
             }
