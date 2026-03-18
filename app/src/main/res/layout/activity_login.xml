@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
-    tools:context=".ui.LoginActivity">
+    tools:context=".view.ui.LoginActivity">
 
     <!-- Barra superior con color naranja -->
     <LinearLayout
@@ -76,7 +76,7 @@
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Correo Electrónico"
+                android:hint="Usuario"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>

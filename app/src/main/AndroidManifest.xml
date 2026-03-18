@@ -4,6 +4,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".util.MiApp"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +17,7 @@
 
         <!-- SplashActivity como la actividad principal -->
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".view.ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,27 +27,27 @@
 
         <!-- El resto de las actividades -->
         <activity
-            android:name=".ui.RegistroActivity"
+            android:name=".view.ui.RegistroActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".view.ui.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.TiendaActivity"
+            android:name=".view.ui.TiendaActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.PromocionesActivity"
+            android:name=".view.ui.PromocionesActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.NosotrosActivity"
+            android:name=".view.ui.NosotrosActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.ContactoActivity"
+            android:name=".view.ui.ContactoActivity"
             android:exported="true" />
 
         <!-- MainActivity ahora no es la principal, pero aún se puede acceder -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".view.ui.MainActivity"
             android:exported="true" />
     </application>
 

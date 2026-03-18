@@ -7,47 +7,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
-    tools:context=".ui.RegistroActivity">
+    tools:context=".view.ui.RegistroActivity">
 
-    <!-- Barra superior con color lavender -->
-    <LinearLayout
-        android:id="@+id/llayTopBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/lavender"
-        android:padding="24dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!-- Logo de la aplicación -->
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="134dp"
-            android:layout_height="177dp"
-            android:layout_gravity="center"
-            android:contentDescription="Logo"
-            android:src="@drawable/logo" />
-
-    </LinearLayout>
-
-    <!-- ScrollView para la vista completa (debajo de la barra lavender) -->
+    <!-- ScrollView que envuelve toda la pantalla -->
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/llayTopBar"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-            <!-- Título del formulario (ahora dentro de la barra lavender) -->
+            android:orientation="vertical">
+
+            <!-- Barra superior con color lavender -->
+
+            <!-- Título del formulario -->
+            <LinearLayout
+                android:id="@+id/llayTopBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/lavender"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Logo de la aplicación -->
+                <ImageView
+                    android:id="@+id/ivLogo"
+                    android:layout_width="134dp"
+                    android:layout_height="177dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Logo"
+                    android:src="@drawable/logo" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tvTitulo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
@@ -56,28 +54,30 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
+            <!-- Formulario de registro -->
+
             <!-- DNI -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilDni"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="DNI"
                 android:layout_marginTop="16dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="DNI"
                 app:boxStrokeColor="@color/naranja"
-                app:hintTextColor="@color/naranja"
-                app:counterMaxLength="8"
                 app:counterEnabled="true"
-                app:counterTextColor="@color/black">
+                app:counterMaxLength="8"
+                app:counterTextColor="@color/black"
+                app:hintTextColor="@color/naranja">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tietDni"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:inputType="number"
                     android:maxLength="8"
-                    android:textColor="@color/black"/>
+                    android:singleLine="true"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Apellidos en horizontal -->
@@ -85,17 +85,17 @@
                 android:id="@+id/llayApellidos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilApellidoPaterno"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Apellido paterno"
-                    android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_weight="1"
+                    android:hint="Apellido paterno"
                     app:boxStrokeColor="@color/naranja"
                     app:hintTextColor="@color/naranja">
 
@@ -103,20 +103,20 @@
                         android:id="@+id/tietApellidoPaterno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
                         android:inputType="textCapWords"
                         android:nextFocusDown="@id/tietApellidoMaterno"
-                        android:textColor="@color/black"/>
+                        android:singleLine="true"
+                        android:textColor="@color/black" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilApellidoMaterno"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Apellido materno"
-                    android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_weight="1"
+                    android:hint="Apellido materno"
                     app:boxStrokeColor="@color/naranja"
                     app:hintTextColor="@color/naranja">
 
@@ -124,20 +124,20 @@
                         android:id="@+id/tietApellidoMaterno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
                         android:inputType="textCapWords"
-                        android:textColor="@color/black"/>
+                        android:singleLine="true"
+                        android:textColor="@color/black" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <!-- Nombres -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilNombres"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombres"
                 android:layout_marginTop="16dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Nombres"
                 app:boxStrokeColor="@color/naranja"
                 app:hintTextColor="@color/naranja">
 
@@ -145,33 +145,33 @@
                     android:id="@+id/tietNombres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:inputType="textCapWords"
-                    android:textColor="@color/black"/>
+                    android:singleLine="true"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Celular -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilCelular"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Celular"
                 android:layout_marginTop="16dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Celular"
                 app:boxStrokeColor="@color/naranja"
-                app:hintTextColor="@color/naranja"
-                app:counterMaxLength="9"
                 app:counterEnabled="true"
-                app:counterTextColor="@color/black">
+                app:counterMaxLength="9"
+                app:counterTextColor="@color/black"
+                app:hintTextColor="@color/naranja">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tietCelular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:inputType="phone"
                     android:maxLength="9"
-                    android:textColor="@color/black"/>
+                    android:singleLine="true"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Sexo -->
@@ -179,12 +179,12 @@
                 android:id="@+id/tvSexo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sexo:"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:text="Sexo:"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <RadioGroup
                 android:id="@+id/rgSexo"
@@ -196,39 +196,39 @@
                     android:id="@+id/rbtMasculino"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Masculino"
                     android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:buttonTint="@color/naranja"/>
+                    android:buttonTint="@color/naranja"
+                    android:text="Masculino"
+                    android:textColor="@color/black" />
 
                 <RadioButton
                     android:id="@+id/rbtFemenino"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Femenino"
                     android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:buttonTint="@color/naranja"/>
+                    android:buttonTint="@color/naranja"
+                    android:text="Femenino"
+                    android:textColor="@color/black" />
 
                 <RadioButton
                     android:id="@+id/rbtNinguno"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Prefiero no decirlo"
-                    android:checked="true"
                     android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:buttonTint="@color/naranja"/>
+                    android:buttonTint="@color/naranja"
+                    android:checked="true"
+                    android:text="Prefiero no decirlo"
+                    android:textColor="@color/black" />
             </RadioGroup>
 
             <!-- Correo -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilCorreo"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Correo"
                 android:layout_marginTop="16dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Correo"
                 app:boxStrokeColor="@color/naranja"
                 app:hintTextColor="@color/naranja"
                 app:suffixText="@idat.pe"
@@ -238,19 +238,19 @@
                     android:id="@+id/tietCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/black"/>
+                    android:singleLine="true"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Contraseña -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilClave"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Contraseña"
                 android:layout_marginTop="16dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Contraseña"
                 app:boxStrokeColor="@color/naranja"
                 app:hintTextColor="@color/naranja"
                 app:passwordToggleEnabled="true"
@@ -260,9 +260,9 @@
                     android:id="@+id/tietClave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"/>
+                    android:singleLine="true"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Checkbox Términos -->
@@ -270,26 +270,27 @@
                 android:id="@+id/chkTyc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Acepto los términos y condiciones y la política de privacidad"
-                android:textColor="@color/black"
                 android:layout_marginTop="16dp"
-                android:buttonTint="@color/naranja"/>
+                android:buttonTint="@color/naranja"
+                android:text="Acepto los términos y condiciones y la política de privacidad"
+                android:textColor="@color/black" />
 
             <!-- Botón Guardar -->
             <Button
                 android:id="@+id/btnGuardar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Guardar datos"
-                android:textColor="@color/blanco"
-                android:backgroundTint="@color/naranja"
+                android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/naranja"
                 android:padding="12dp"
+                android:text="Guardar datos"
+                android:textColor="@color/blanco"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:cornerRadius="8dp"/>
+                app:cornerRadius="8dp" />
 
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
