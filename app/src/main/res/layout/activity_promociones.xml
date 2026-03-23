@@ -42,6 +42,24 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="16dp"/>
 
+                <ProgressBar
+                    android:id="@+id/pbPromosProductos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvPromosVacio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="No hay promociones activas."
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
+
                 <!-- Grid -->
                 <GridLayout
                     android:id="@+id/gridPromos"

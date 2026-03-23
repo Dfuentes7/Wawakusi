@@ -11,9 +11,13 @@
 
     <!-- ScrollView que envuelve toda la pantalla -->
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,250 +49,268 @@
             <TextView
                 android:id="@+id/tvTitulo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
                 android:gravity="center"
                 android:text="Registro de nuevo usuario"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <!-- Formulario de registro -->
-
-            <!-- DNI -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilDni"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="DNI"
-                app:boxStrokeColor="@color/naranja"
-                app:counterEnabled="true"
-                app:counterMaxLength="8"
-                app:counterTextColor="@color/black"
-                app:hintTextColor="@color/naranja">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietDni"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="8"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Apellidos en horizontal -->
             <LinearLayout
-                android:id="@+id/llayApellidos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="24dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilApellidoPaterno"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:hint="Apellido paterno"
-                    app:boxStrokeColor="@color/naranja"
-                    app:hintTextColor="@color/naranja">
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/lavender"
+                    app:strokeWidth="1dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tietApellidoPaterno"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapWords"
-                        android:nextFocusDown="@id/tietApellidoMaterno"
-                        android:singleLine="true"
-                        android:textColor="@color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilApellidoMaterno"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:hint="Apellido materno"
-                    app:boxStrokeColor="@color/naranja"
-                    app:hintTextColor="@color/naranja">
+                        <!-- DNI -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilDni"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="DNI"
+                            app:boxStrokeColor="@color/naranja"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="8"
+                            app:counterTextColor="@color/black"
+                            app:hintTextColor="@color/naranja">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tietApellidoMaterno"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapWords"
-                        android:singleLine="true"
-                        android:textColor="@color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietDni"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:maxLength="8"
+                                android:singleLine="true"
+                                android:textColor="@color/black" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Apellidos en horizontal -->
+                        <LinearLayout
+                            android:id="@+id/llayApellidos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/tilApellidoPaterno"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1"
+                                android:hint="Apellido paterno"
+                                app:boxStrokeColor="@color/naranja"
+                                app:hintTextColor="@color/naranja">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/tietApellidoPaterno"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textCapWords"
+                                    android:nextFocusDown="@id/tietApellidoMaterno"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/tilApellidoMaterno"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_weight="1"
+                                android:hint="Apellido materno"
+                                app:boxStrokeColor="@color/naranja"
+                                app:hintTextColor="@color/naranja">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/tietApellidoMaterno"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textCapWords"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <!-- Nombres -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilNombres"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:hint="Nombres"
+                            app:boxStrokeColor="@color/naranja"
+                            app:hintTextColor="@color/naranja">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietNombres"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textCapWords"
+                                android:singleLine="true"
+                                android:textColor="@color/black" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Celular -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilCelular"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:hint="Celular"
+                            app:boxStrokeColor="@color/naranja"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="9"
+                            app:counterTextColor="@color/black"
+                            app:hintTextColor="@color/naranja">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietCelular"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="phone"
+                                android:maxLength="9"
+                                android:singleLine="true"
+                                android:textColor="@color/black" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Sexo -->
+                        <TextView
+                            android:id="@+id/tvSexo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="Sexo"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <RadioGroup
+                            android:id="@+id/rgSexo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/rbtMasculino"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/naranja"
+                                android:text="Masculino"
+                                android:textColor="@color/black" />
+
+                            <RadioButton
+                                android:id="@+id/rbtFemenino"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/naranja"
+                                android:text="Femenino"
+                                android:textColor="@color/black" />
+
+                            <RadioButton
+                                android:id="@+id/rbtNinguno"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/naranja"
+                                android:checked="true"
+                                android:text="Prefiero no decirlo"
+                                android:textColor="@color/black" />
+                        </RadioGroup>
+
+                        <!-- Correo -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilCorreo"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:hint="Correo"
+                            app:boxStrokeColor="@color/naranja"
+                            app:hintTextColor="@color/naranja"
+                            app:suffixText="@wawakusi.com"
+                            app:suffixTextColor="@color/black">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietCorreo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textEmailAddress"
+                                android:singleLine="true"
+                                android:textColor="@color/black" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Contraseña -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilClave"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:hint="Contraseña"
+                            app:boxStrokeColor="@color/naranja"
+                            app:hintTextColor="@color/naranja"
+                            app:passwordToggleEnabled="true"
+                            app:passwordToggleTint="@color/naranja">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tietClave"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPassword"
+                                android:singleLine="true"
+                                android:textColor="@color/black" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Checkbox Términos -->
+                        <CheckBox
+                            android:id="@+id/chkTyc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:buttonTint="@color/naranja"
+                            android:text="Acepto los términos y condiciones y la política de privacidad"
+                            android:textColor="@color/black" />
+
+                        <!-- Botón Guardar -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnGuardar"
+                            style="@style/Widget.MaterialComponents.Button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Guardar datos"
+                            android:textAllCaps="false"
+                            app:backgroundTint="@color/naranja" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
-
-            <!-- Nombres -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilNombres"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Nombres"
-                app:boxStrokeColor="@color/naranja"
-                app:hintTextColor="@color/naranja">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietNombres"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Celular -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilCelular"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Celular"
-                app:boxStrokeColor="@color/naranja"
-                app:counterEnabled="true"
-                app:counterMaxLength="9"
-                app:counterTextColor="@color/black"
-                app:hintTextColor="@color/naranja">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietCelular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:maxLength="9"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Sexo -->
-            <TextView
-                android:id="@+id/tvSexo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="Sexo:"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:id="@+id/rgSexo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rbtMasculino"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/naranja"
-                    android:text="Masculino"
-                    android:textColor="@color/black" />
-
-                <RadioButton
-                    android:id="@+id/rbtFemenino"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/naranja"
-                    android:text="Femenino"
-                    android:textColor="@color/black" />
-
-                <RadioButton
-                    android:id="@+id/rbtNinguno"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/naranja"
-                    android:checked="true"
-                    android:text="Prefiero no decirlo"
-                    android:textColor="@color/black" />
-            </RadioGroup>
-
-            <!-- Correo -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilCorreo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Correo"
-                app:boxStrokeColor="@color/naranja"
-                app:hintTextColor="@color/naranja"
-                app:suffixText="@idat.pe"
-                app:suffixTextColor="@color/black">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietCorreo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Contraseña -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilClave"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Contraseña"
-                app:boxStrokeColor="@color/naranja"
-                app:hintTextColor="@color/naranja"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/naranja">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietClave"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Checkbox Términos -->
-            <CheckBox
-                android:id="@+id/chkTyc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:buttonTint="@color/naranja"
-                android:text="Acepto los términos y condiciones y la política de privacidad"
-                android:textColor="@color/black" />
-
-            <!-- Botón Guardar -->
-            <Button
-                android:id="@+id/btnGuardar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/naranja"
-                android:padding="12dp"
-                android:text="Guardar datos"
-                android:textColor="@color/blanco"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:cornerRadius="8dp" />
 
         </LinearLayout>
     </ScrollView>

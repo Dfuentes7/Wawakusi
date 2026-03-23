@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit
 
 object WawakusiApiClient {
     private var retrofitCliente = OkHttpClient.Builder()
+        .addInterceptor(ApiInterceptor())
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(15, TimeUnit.MINUTES)
         .writeTimeout(15, TimeUnit.MINUTES)

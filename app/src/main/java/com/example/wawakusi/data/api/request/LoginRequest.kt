@@ -1,3 +1,10 @@
 package com.example.wawakusi.data.api.request
 
-class LoginRequest (var correo:String, var contrasena:String)
+import com.google.gson.annotations.SerializedName
+
+data class LoginRequest(
+    @SerializedName("email")
+    val email: String,
+    @SerializedName("password")
+    val password: String
+)

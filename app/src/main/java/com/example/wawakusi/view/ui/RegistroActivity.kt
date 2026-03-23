@@ -12,6 +12,7 @@ import com.example.wawakusi.util.AppMensaje
 import com.example.wawakusi.util.TipoMensaje
 import com.example.wawakusi.viewmodel.AuthViewModel
 import com.example.wawakusi.R
+import android.util.Patterns
 
 
 class RegistroActivity : AppCompatActivity(), View.OnClickListener {
@@ -30,15 +31,15 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener {
     }
     private fun obtenerDatosRegistro(response: RegistroResponse) {
         binding.btnGuardar.isEnabled = true
-        AppMensaje.enviarMensaje(binding.root, response.mensaje, TipoMensaje.ADVERTENCIA)
+        AppMensaje.enviarMensaje(
+            binding.root,
+            response.mensaje,
+            if (response.rpta) TipoMensaje.CORRECTO else TipoMensaje.ERROR
+        )
 
-        // Si el registro fue exitoso (asumiendo que response.rpta es un valor booleano que indica éxito)
         if (response.rpta) {
-            // Redirigir a la actividad LoginActivity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-
-            // Finalizar la actividad actual para que el usuario no regrese a la pantalla de registro
             finish()
         }
     }
@@ -52,31 +53,85 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener {
     private fun registrarUsuario() {
 
         binding.btnGuardar.isEnabled = false
-        // Deshabilitar el botón para evitar múltiples clics
-        binding.btnGuardar.isEnabled = false
+        limpiarErrores()
 
-        // Obtener el valor seleccionado del RadioGroup (Sexo)
         val sexo = when {
             binding.rbtMasculino.isChecked -> "Masculino"
             binding.rbtFemenino.isChecked -> "Femenino"
-            else -> "Prefiero no decirlo"  // Valor predeterminado si ninguno está seleccionado
+            else -> "Prefiero no decirlo"
         }
 
-        // Obtener el estado del CheckBox (Términos y condiciones)
-        val terminos = binding.chkTyc.isChecked  // Devuelve un Boolean: true si está marcado, false si no
+        val dni = binding.tietDni.text?.toString()?.trim().orEmpty()
+        val apellidoPaterno = binding.tietApellidoPaterno.text?.toString()?.trim().orEmpty()
+        val apellidoMaterno = binding.tietApellidoMaterno.text?.toString()?.trim().orEmpty()
+        val nombres = binding.tietNombres.text?.toString()?.trim().orEmpty()
+        val celular = binding.tietCelular.text?.toString()?.trim().orEmpty()
+        val correoIngresado = binding.tietCorreo.text?.toString()?.trim().orEmpty()
+        val clave = binding.tietClave.text?.toString().orEmpty()
+        val terminos = binding.chkTyc.isChecked
+
+        var valido = true
+
+        if (dni.length != 8) {
+            binding.tilDni.error = "Ingrese un DNI válido de 8 dígitos."
+            valido = false
+        }
+        if (apellidoPaterno.isBlank()) {
+            binding.tilApellidoPaterno.error = "Campo obligatorio."
+            valido = false
+        }
+        if (apellidoMaterno.isBlank()) {
+            binding.tilApellidoMaterno.error = "Campo obligatorio."
+            valido = false
+        }
+        if (nombres.isBlank()) {
+            binding.tilNombres.error = "Campo obligatorio."
+            valido = false
+        }
+        if (celular.isNotBlank() && celular.length != 9) {
+            binding.tilCelular.error = "Ingrese un celular válido de 9 dígitos."
+            valido = false
+        }
+
+        val correo = if (correoIngresado.contains("@")) correoIngresado else "$correoIngresado@wawakusi.com"
+        if (correoIngresado.isBlank() || !Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            binding.tilCorreo.error = "Ingrese un correo válido."
+            valido = false
+        }
+        if (clave.length < 6) {
+            binding.tilClave.error = "La contraseña debe tener al menos 6 caracteres."
+            valido = false
+        }
+        if (!terminos) {
+            AppMensaje.enviarMensaje(binding.root, "Debe aceptar los términos y condiciones.", TipoMensaje.ADVERTENCIA)
+            valido = false
+        }
+
+        if (!valido) {
+            binding.btnGuardar.isEnabled = true
+            return
+        }
 
         authViewModel.registro(
-            binding.tietDni.text.toString(),
-            binding.tietApellidoPaterno.text.toString(),
-            binding.tietApellidoMaterno.text.toString(),
-            binding.tietNombres.text.toString(),
-            binding.tietCelular.text.toString(),
+            dni,
+            apellidoPaterno,
+            apellidoMaterno,
+            nombres,
+            celular,
             sexo,
-            binding.tietCorreo.text.toString(),
-            binding.tietClave.text.toString(),
+            correo,
+            clave,
             terminos
-
         )
+    }
 
+    private fun limpiarErrores() {
+        binding.tilDni.error = null
+        binding.tilApellidoPaterno.error = null
+        binding.tilApellidoMaterno.error = null
+        binding.tilNombres.error = null
+        binding.tilCelular.error = null
+        binding.tilCorreo.error = null
+        binding.tilClave.error = null
     }
 }

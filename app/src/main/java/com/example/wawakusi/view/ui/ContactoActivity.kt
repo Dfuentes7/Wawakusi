@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.wawakusi.databinding.ActivityContactoBinding
 
 import android.content.Intent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.IntentFilter
+import android.os.Build
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -12,6 +16,15 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.example.wawakusi.R
+import com.example.wawakusi.data.api.WawakusiApiClient
+import com.example.wawakusi.data.api.response.VistasResponse
+import com.example.wawakusi.util.AppMensaje
+import com.example.wawakusi.util.MenuDinamico
+import com.example.wawakusi.util.SharedPreferencesManager
+import com.example.wawakusi.util.TipoMensaje
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 
@@ -23,8 +36,22 @@ class ContactoActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private lateinit var binding: ActivityContactoBinding
 
+    private val sesionExpiradaReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            AppMensaje.enviarMensaje(navigationView, "Tu sesión expiró. Inicia sesión nuevamente.", TipoMensaje.ADVERTENCIA)
+            irALogin()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (SharedPreferencesManager.obtenerRol() == "ADMIN") {
+            val intent = Intent(this, AdminPanelActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+            return
+        }
         binding = ActivityContactoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -43,6 +70,24 @@ class ContactoActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         // Configuración del NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+        navigationView.setCheckedItem(R.id.nav_contacto)
+        MenuDinamico.aplicarHeader(navigationView)
+        actualizarMenuDesdeApi()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter(SharedPreferencesManager.ACTION_SESION_EXPIRADA)
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(sesionExpiradaReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            registerReceiver(sesionExpiradaReceiver, filter)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(sesionExpiradaReceiver)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -66,6 +111,22 @@ class ContactoActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 startActivity(intent)
             }
             R.id.nav_contacto -> { /* Ya estamos aquí */ }
+            MenuDinamico.ITEM_LOGIN -> {
+                irALogin()
+            }
+            MenuDinamico.ITEM_REGISTRO -> {
+                startActivity(Intent(this, RegistroActivity::class.java))
+            }
+            MenuDinamico.ITEM_CERRAR_SESION -> {
+                SharedPreferencesManager.limpiarSesion()
+                irALogin()
+            }
+            MenuDinamico.ITEM_PERFIL -> {
+                startActivity(Intent(this, PerfilActivity::class.java))
+            }
+            MenuDinamico.ITEM_ADMIN -> {
+                startActivity(Intent(this, AdminPanelActivity::class.java))
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -73,6 +134,33 @@ class ContactoActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onResume() {
         super.onResume()
+        if (SharedPreferencesManager.obtenerToken() != null && SharedPreferencesManager.tokenExpirado()) {
+            SharedPreferencesManager.limpiarSesion()
+            AppMensaje.enviarMensaje(navigationView, "Tu sesión expiró. Inicia sesión nuevamente.", TipoMensaje.ADVERTENCIA)
+        }
         navigationView.setCheckedItem(R.id.nav_contacto)
+        MenuDinamico.aplicarHeader(navigationView)
+        actualizarMenuDesdeApi()
+    }
+
+    private fun irALogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun actualizarMenuDesdeApi() {
+        WawakusiApiClient.retrofitService.vistas().enqueue(object : Callback<VistasResponse> {
+            override fun onResponse(call: Call<VistasResponse>, response: Response<VistasResponse>) {
+                val body = response.body() ?: VistasResponse(rpta = false, publico = !SharedPreferencesManager.estaAutenticado())
+                MenuDinamico.aplicarMenuSesion(navigationView, body)
+            }
+
+            override fun onFailure(call: Call<VistasResponse>, t: Throwable) {
+                val body = VistasResponse(rpta = false, publico = !SharedPreferencesManager.estaAutenticado())
+                MenuDinamico.aplicarMenuSesion(navigationView, body)
+            }
+        })
     }
 }

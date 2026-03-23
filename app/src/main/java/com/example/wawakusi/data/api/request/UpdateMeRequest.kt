@@ -2,17 +2,18 @@ package com.example.wawakusi.data.api.request
 
 import com.google.gson.annotations.SerializedName
 
-data class RegistroRequest(
+data class UpdateMeRequest(
     @SerializedName("nombre")
-    val nombre: String,
+    val nombre: String? = null,
     @SerializedName("telefono")
     val telefono: String? = null,
     @SerializedName("email")
-    val email: String,
+    val email: String? = null,
     @SerializedName("direccion")
     val direccion: String? = null,
     @SerializedName("usuario")
     val usuario: String? = null,
     @SerializedName("password")
-    val password: String
+    val password: String? = null
 )
+

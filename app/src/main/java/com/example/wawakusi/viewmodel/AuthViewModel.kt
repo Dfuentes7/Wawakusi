@@ -17,8 +17,13 @@ class AuthViewModel : ViewModel() {
         registroResponse = repository.registroResponse
 
     }
-    fun login(correo:String, contrasena:String){
-        loginResponse = repository.login(LoginRequest(correo, contrasena))
+    fun login(correo: String, contrasena: String) {
+        loginResponse = repository.login(
+            LoginRequest(
+                email = correo.trim(),
+                password = contrasena
+            )
+        )
     }
 
     fun registro(dni: String,
@@ -30,7 +35,21 @@ class AuthViewModel : ViewModel() {
                  correo: String,
                  contrasena: String,
                  terminos: Boolean){
-        registroResponse = repository.registro(RegistroRequest(dni, apellidoPaterno, apellidoMaterno, nombres, celular, sexo, correo, contrasena, terminos))
+        val nombreCompleto = listOf(nombres, apellidoPaterno, apellidoMaterno)
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+            .joinToString(" ")
+
+        registroResponse = repository.registro(
+            RegistroRequest(
+                nombre = nombreCompleto,
+                telefono = celular.trim().ifBlank { null },
+                email = correo.trim(),
+                direccion = null,
+                usuario = correo.trim(),
+                password = contrasena
+            )
+        )
     }
 
 }

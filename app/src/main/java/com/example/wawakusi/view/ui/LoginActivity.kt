@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.wawakusi.data.api.response.LoginResponse
 import com.example.wawakusi.util.AppMensaje
+import com.example.wawakusi.util.SharedPreferencesManager
 import com.example.wawakusi.util.TipoMensaje
 import com.example.wawakusi.viewmodel.AuthViewModel
 import com.example.wawakusi.R
@@ -32,9 +33,27 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     }
     private fun obtenerDatosLogin(response: LoginResponse) {
-        if(response.rpta){
-            startActivity(Intent(applicationContext, MainActivity::class.java))
-        }else{
+        if (response.rpta) {
+            val token = response.token
+            if (token.isNullOrBlank()) {
+                AppMensaje.enviarMensaje(binding.root, "No se recibió el token de sesión.", TipoMensaje.ERROR)
+            } else {
+                SharedPreferencesManager.guardarSesion(
+                    token = token,
+                    usuario = response.auth?.usuario,
+                    rol = response.auth?.rolNombre
+                )
+                val destino = if (response.auth?.rolNombre == "ADMIN") {
+                    AdminPanelActivity::class.java
+                } else {
+                    MainActivity::class.java
+                }
+                val intent = Intent(applicationContext, destino)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
+        } else {
             AppMensaje.enviarMensaje(binding.root, response.mensaje, TipoMensaje.ERROR)
         }
         binding.btnLogin.isEnabled = true
