@@ -3,6 +3,7 @@ package com.example.wawakusi.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.wawakusi.data.api.WawakusiApiClient
+import com.example.wawakusi.data.api.request.ActualizarEstadoDescuentoRequest
 import com.example.wawakusi.data.api.request.CrearDescuentoRequest
 import com.example.wawakusi.data.api.response.MessageResponse
 import com.example.wawakusi.data.api.response.PromocionAdminResponse
@@ -16,6 +17,7 @@ class DescuentoRepository {
     var promocionesAdminResponse = MutableLiveData<List<PromocionAdminResponse>>()
     var crearPromocionAdminResponse = MutableLiveData<MessageResponse>()
     var eliminarPromocionAdminResponse = MutableLiveData<MessageResponse>()
+    var actualizarEstadoPromocionAdminResponse = MutableLiveData<MessageResponse>()
 
     private val gson = Gson()
 
@@ -94,6 +96,38 @@ class DescuentoRepository {
             }
         })
         return eliminarPromocionAdminResponse
+    }
+
+    fun actualizarEstadoPromocionAdmin(id: Int, estado: Int): MutableLiveData<MessageResponse> {
+        val call: Call<MessageResponse> = WawakusiApiClient.retrofitService.actualizarEstadoPromocionAdmin(
+            id,
+            ActualizarEstadoDescuentoRequest(estado = estado)
+        )
+        call.enqueue(object : Callback<MessageResponse> {
+            override fun onResponse(call: Call<MessageResponse>, response: Response<MessageResponse>) {
+                if (response.isSuccessful) {
+                    actualizarEstadoPromocionAdminResponse.value =
+                        response.body() ?: MessageResponse(message = "Estado actualizado.")
+                    return
+                }
+
+                val errorJson = response.errorBody()?.string()
+                val parsed = try {
+                    if (errorJson.isNullOrBlank()) null else gson.fromJson(errorJson, MessageResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                actualizarEstadoPromocionAdminResponse.value = parsed
+                    ?: MessageResponse(message = "No se pudo actualizar estado (${response.code()}).")
+            }
+
+            override fun onFailure(call: Call<MessageResponse>, t: Throwable) {
+                Log.e("ErrorActualizarEstadoPromocion", t.message.toString())
+                actualizarEstadoPromocionAdminResponse.value = MessageResponse(message = "No se pudo conectar con el servidor.")
+            }
+        })
+        return actualizarEstadoPromocionAdminResponse
     }
 }
 

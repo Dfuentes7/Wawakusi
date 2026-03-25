@@ -100,6 +100,8 @@ object MenuDinamico {
     const val ITEM_PERFIL = 2003
     const val ITEM_ADMIN = 2004
     const val ITEM_CERRAR_SESION = 2005
+    const val ITEM_CARRITO = 2006
+    const val ITEM_MIS_PEDIDOS = 2007
 
     const val ITEM_ADMIN_DASHBOARD = 2101
     const val ITEM_ADMIN_PRODUCTOS = 2102
@@ -186,14 +188,41 @@ object MenuDinamico {
                 .setIcon(R.drawable.outline_add_home_24)
         }
 
-        if (isAdmin) {
-            menu.add(GROUP_SESION, ITEM_ADMIN, Menu.NONE, "Administrador")
-                .setIcon(R.drawable.outline_adb_24)
+        if (!vistasResponse.publico && !isAdmin) {
+            val puedeCarrito = codigos.contains("CUS06") || codigos.contains("CUS05") || codigos.contains("CUS07")
+            if (puedeCarrito) {
+                val item = menu.add(GROUP_SESION, ITEM_CARRITO, Menu.NONE, "Carrito")
+                    .setIcon(R.drawable.ic_cart_nav_24)
+                try {
+                    item.setActionView(R.layout.menu_badge)
+                } catch (_: Exception) {}
+            }
+
+            if (codigos.contains("CUS08")) {
+                menu.add(GROUP_SESION, ITEM_MIS_PEDIDOS, Menu.NONE, "Mis pedidos")
+                    .setIcon(R.drawable.ic_admin_pedidos_24)
+            }
         }
 
         if (!vistasResponse.publico) {
             menu.add(GROUP_SESION, ITEM_CERRAR_SESION, Menu.NONE, "Cerrar sesión")
                 .setIcon(R.drawable.outline_add_home_24)
+        }
+    }
+
+    fun actualizarBadgeCarrito(navigationView: NavigationView, count: Int) {
+        val item = navigationView.menu.findItem(ITEM_CARRITO) ?: return
+        if (item.actionView == null) {
+            try {
+                item.setActionView(R.layout.menu_badge)
+            } catch (_: Exception) {}
+        }
+        val badgeView = item.actionView?.findViewById<TextView>(R.id.tvBadge) ?: return
+        if (count > 0) {
+            badgeView.text = if (count > 99) "99+" else count.toString()
+            badgeView.visibility = android.view.View.VISIBLE
+        } else {
+            badgeView.visibility = android.view.View.GONE
         }
     }
 }

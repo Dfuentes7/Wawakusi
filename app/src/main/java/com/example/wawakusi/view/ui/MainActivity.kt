@@ -193,6 +193,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(Intent(this, PerfilActivity::class.java))
                 return true
             }
+            MenuDinamico.ITEM_CARRITO -> {
+                startActivity(Intent(this, CarritoActivity::class.java))
+                return true
+            }
+            MenuDinamico.ITEM_MIS_PEDIDOS -> {
+                startActivity(Intent(this, MisPedidosActivity::class.java))
+                return true
+            }
             MenuDinamico.ITEM_ADMIN -> {
                 startActivity(Intent(this, AdminPanelActivity::class.java))
                 return true

@@ -223,6 +223,8 @@ class AdminProductosActivity : AppCompatActivity(), NavigationView.OnNavigationI
     private fun registrarProducto() {
         val nombre = binding.etNombre.text?.toString()?.trim().orEmpty()
         val precio = binding.etPrecio.text?.toString()?.trim().orEmpty()
+        val talla = binding.etTalla.text?.toString()?.trim()
+        val color = binding.etColor.text?.toString()?.trim()
         val cantidad = binding.etCantidad.text?.toString()?.trim().orEmpty()
         val descripcion = binding.etDescripcion.text?.toString()?.trim().orEmpty()
         val bytes = imagenBytes
@@ -243,12 +245,12 @@ class AdminProductosActivity : AppCompatActivity(), NavigationView.OnNavigationI
                 return
             }
             binding.btnGuardarProducto.text = "Registrando..."
-            productViewModel.crearProducto(nombre, precio, cantidad, descripcion, bytes, mime)
+            productViewModel.crearProducto(nombre, precio, talla, color, cantidad, descripcion, bytes, mime)
             return
         }
 
         binding.btnGuardarProducto.text = "Actualizando..."
-        productViewModel.actualizarProducto(editando.id, nombre, precio, cantidad, descripcion, bytes, mime)
+        productViewModel.actualizarProducto(editando.id, nombre, precio, talla, color, cantidad, descripcion, bytes, mime)
     }
 
     private fun limpiarFormulario() {
@@ -367,7 +369,7 @@ class AdminProductosActivity : AppCompatActivity(), NavigationView.OnNavigationI
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        tvMeta.text = "S/ ${p.precio} · Stock: ${p.cantidad} · ID: ${p.id}"
+        tvMeta.text = "$ ${p.precio} · Stock: ${p.cantidad} · ID: ${p.id}"
         tvMeta.setTextColor(ContextCompat.getColor(this, R.color.black))
         tvMeta.alpha = 0.75f
         tvMeta.setTextSize(13f)
@@ -446,8 +448,8 @@ class AdminProductosActivity : AppCompatActivity(), NavigationView.OnNavigationI
         when (item.itemId) {
             MenuDinamico.ITEM_ADMIN_DASHBOARD -> startActivity(Intent(this, AdminPanelActivity::class.java))
             MenuDinamico.ITEM_ADMIN_PRODUCTOS -> {}
-            MenuDinamico.ITEM_ADMIN_PEDIDOS -> AppMensaje.enviarMensaje(binding.root, "Función en construcción: Gestionar pedidos", TipoMensaje.INFORMACION)
-            MenuDinamico.ITEM_ADMIN_REPORTES -> AppMensaje.enviarMensaje(binding.root, "Función en construcción: Visualizar reportes", TipoMensaje.INFORMACION)
+            MenuDinamico.ITEM_ADMIN_PEDIDOS -> startActivity(Intent(this, AdminPedidosActivity::class.java))
+            MenuDinamico.ITEM_ADMIN_REPORTES -> startActivity(Intent(this, AdminReportesActivity::class.java))
             MenuDinamico.ITEM_ADMIN_PROMOCIONES -> startActivity(Intent(this, AdminPromocionesActivity::class.java))
             MenuDinamico.ITEM_ADMIN_USUARIOS -> startActivity(Intent(this, AdminUsuariosRolesActivity::class.java))
             MenuDinamico.ITEM_PERFIL -> startActivity(Intent(this, PerfilActivity::class.java))

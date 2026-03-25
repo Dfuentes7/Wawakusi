@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
 import android.os.Build
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ import com.example.wawakusi.util.SharedPreferencesManager
 import com.example.wawakusi.util.TipoMensaje
 import com.example.wawakusi.viewmodel.ProductViewModel
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -144,12 +146,33 @@ class TiendaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             MenuDinamico.ITEM_PERFIL -> {
                 startActivity(Intent(this, PerfilActivity::class.java))
             }
+            MenuDinamico.ITEM_CARRITO -> {
+                startActivity(Intent(this, CarritoActivity::class.java))
+            }
+            MenuDinamico.ITEM_MIS_PEDIDOS -> {
+                startActivity(Intent(this, MisPedidosActivity::class.java))
+            }
             MenuDinamico.ITEM_ADMIN -> {
                 startActivity(Intent(this, AdminPanelActivity::class.java))
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_carrito, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_carrito -> {
+                startActivity(Intent(this, CarritoActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onResume() {
@@ -222,9 +245,16 @@ class TiendaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         card.isFocusable = true
         card.setOnClickListener {
             val descripcion = p.descripcion?.trim().orEmpty()
+            val intent = Intent(this, DetalleProductoActivity::class.java)
+            intent.putExtra("producto_json", Gson().toJson(p))
+            startActivity(intent)
+        }
+        card.setOnLongClickListener {
+            val descripcion = p.descripcion?.trim().orEmpty()
             if (descripcion.isNotBlank()) {
                 AppMensaje.enviarMensaje(binding.root, descripcion, TipoMensaje.INFORMACION)
             }
+            true
         }
 
         val content = LinearLayout(this)
@@ -267,11 +297,11 @@ class TiendaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val precioBase = p.precioBase
         val porcentaje = p.descuento?.porcentaje
         tvPrecio.text = if (precioFinal != null && precioBase != null && porcentaje != null) {
-            "Oferta: S/ ${precioFinal} (Antes S/ ${precioBase})"
+            "Oferta: $${precioFinal} (Antes $${precioBase})"
         } else if (precioFinal != null) {
-            "S/ ${precioFinal}"
+            "$${precioFinal}"
         } else if (precioBase != null) {
-            "S/ ${precioBase}"
+            "$${precioBase}"
         } else {
             "Precio no disponible"
         }

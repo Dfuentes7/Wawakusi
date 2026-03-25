@@ -187,9 +187,13 @@ class PerfilActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 irALogin()
             }
             MenuDinamico.ITEM_PERFIL -> {}
+            MenuDinamico.ITEM_CARRITO -> startActivity(Intent(this, CarritoActivity::class.java))
+            MenuDinamico.ITEM_MIS_PEDIDOS -> startActivity(Intent(this, MisPedidosActivity::class.java))
             MenuDinamico.ITEM_ADMIN -> startActivity(Intent(this, AdminPanelActivity::class.java))
             MenuDinamico.ITEM_ADMIN_DASHBOARD -> startActivity(Intent(this, AdminPanelActivity::class.java))
             MenuDinamico.ITEM_ADMIN_PRODUCTOS -> startActivity(Intent(this, AdminProductosActivity::class.java))
+            MenuDinamico.ITEM_ADMIN_PEDIDOS -> startActivity(Intent(this, AdminPedidosActivity::class.java))
+            MenuDinamico.ITEM_ADMIN_REPORTES -> startActivity(Intent(this, AdminReportesActivity::class.java))
             MenuDinamico.ITEM_ADMIN_PROMOCIONES -> startActivity(Intent(this, AdminPromocionesActivity::class.java))
             MenuDinamico.ITEM_ADMIN_USUARIOS -> startActivity(Intent(this, AdminUsuariosRolesActivity::class.java))
         }

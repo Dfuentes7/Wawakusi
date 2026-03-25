@@ -395,8 +395,8 @@ class AdminUsuariosRolesActivity : AppCompatActivity(), NavigationView.OnNavigat
             MenuDinamico.ITEM_ADMIN_PRODUCTOS -> startActivity(Intent(this, AdminProductosActivity::class.java))
             MenuDinamico.ITEM_ADMIN_PROMOCIONES -> startActivity(Intent(this, AdminPromocionesActivity::class.java))
             MenuDinamico.ITEM_ADMIN_USUARIOS -> {}
-            MenuDinamico.ITEM_ADMIN_PEDIDOS -> AppMensaje.enviarMensaje(binding.root, "Función en construcción: Gestionar pedidos", TipoMensaje.INFORMACION)
-            MenuDinamico.ITEM_ADMIN_REPORTES -> AppMensaje.enviarMensaje(binding.root, "Función en construcción: Visualizar reportes", TipoMensaje.INFORMACION)
+            MenuDinamico.ITEM_ADMIN_PEDIDOS -> startActivity(Intent(this, AdminPedidosActivity::class.java))
+            MenuDinamico.ITEM_ADMIN_REPORTES -> startActivity(Intent(this, AdminReportesActivity::class.java))
             MenuDinamico.ITEM_PERFIL -> startActivity(Intent(this, PerfilActivity::class.java))
             MenuDinamico.ITEM_CERRAR_SESION -> {
                 SharedPreferencesManager.limpiarSesion()

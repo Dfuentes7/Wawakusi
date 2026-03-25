@@ -14,7 +14,7 @@ object WawakusiApiClient {
         .build()
 
     private fun buildRetrofit() = Retrofit.Builder()
-        .baseUrl("http://192.168.1.50:4000/api/")
+        .baseUrl("https://wawakusi.vercel.app/api/")
         .addConverterFactory(GsonConverterFactory.create())
         .client(retrofitCliente)
         .build()

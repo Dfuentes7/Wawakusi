@@ -59,6 +59,46 @@
         <activity
             android:name=".view.ui.AdminUsuariosRolesActivity"
             android:exported="true" />
+        <activity
+            android:name=".view.ui.DetalleProductoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.ui.CarritoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.ui.CheckoutActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.ui.MisPedidosActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.ui.AdminPedidosActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.ui.AdminReportesActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.ui.PaypalReturnActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="wawakusi"
+                    android:host="paypal"
+                    android:pathPrefix="/success" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="wawakusi"
+                    android:host="paypal"
+                    android:pathPrefix="/cancel" />
+            </intent-filter>
+        </activity>
 
         <!-- MainActivity ahora no es la principal, pero aún se puede acceder -->
         <activity

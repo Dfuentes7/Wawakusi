@@ -33,8 +33,11 @@ import com.example.wawakusi.util.AppMensaje
 import com.example.wawakusi.util.MenuDinamico
 import com.example.wawakusi.util.SharedPreferencesManager
 import com.example.wawakusi.util.TipoMensaje
+import com.example.wawakusi.viewmodel.CarritoViewModel
 import com.example.wawakusi.viewmodel.ProductViewModel
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,6 +51,7 @@ class PromocionesActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     private lateinit var toolbar: Toolbar
     private lateinit var binding: ActivityPromocionesBinding
     private lateinit var productViewModel: ProductViewModel
+    private lateinit var carritoViewModel: CarritoViewModel
 
     private val sesionExpiradaReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -91,6 +95,28 @@ class PromocionesActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         productViewModel.promocionesResponse.observe(this, Observer { list ->
             renderPromociones(list ?: emptyList())
         })
+
+        carritoViewModel = ViewModelProvider(this).get(CarritoViewModel::class.java)
+        carritoViewModel.agregarItemResponse.observe(this, Observer { resp ->
+            val msg = resp?.message ?: resp?.mensaje ?: "Operación realizada."
+            if (resp?.rpta == true || (resp?.message != null && !msg.contains("No se pudo"))) {
+                AppMensaje.enviarMensaje(binding.root, msg, TipoMensaje.CORRECTO)
+                try {
+                    carritoViewModel.obtenerMiCarrito()
+                } catch (_: Exception) {}
+            } else {
+                AppMensaje.enviarMensaje(binding.root, msg, TipoMensaje.ERROR)
+            }
+        })
+        carritoViewModel.carritoResponse.observe(this, Observer { c ->
+            if (c != null && c.rpta) {
+                try {
+                    val count = c.items.sumOf { it.cantidad }
+                    MenuDinamico.actualizarBadgeCarrito(navigationView, count)
+                } catch (_: Exception) {}
+            }
+        })
+
         binding.gridPromos.removeAllViews()
         setLoadingPromos(true)
         productViewModel.listarPromociones()
@@ -144,6 +170,12 @@ class PromocionesActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             }
             MenuDinamico.ITEM_PERFIL -> {
                 startActivity(Intent(this, PerfilActivity::class.java))
+            }
+            MenuDinamico.ITEM_CARRITO -> {
+                startActivity(Intent(this, CarritoActivity::class.java))
+            }
+            MenuDinamico.ITEM_MIS_PEDIDOS -> {
+                startActivity(Intent(this, MisPedidosActivity::class.java))
             }
             MenuDinamico.ITEM_ADMIN -> {
                 startActivity(Intent(this, AdminPanelActivity::class.java))
@@ -250,6 +282,20 @@ class PromocionesActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         tvNombre.setTypeface(tvNombre.typeface, android.graphics.Typeface.BOLD)
         tvNombre.setPadding(0, dp(10), 0, 0)
 
+        val descripcion = p.descripcion?.trim().orEmpty()
+        val tvDesc = TextView(this)
+        tvDesc.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        tvDesc.text = if (descripcion.isNotBlank()) descripcion else "Sin descripción."
+        tvDesc.setTextColor(ContextCompat.getColor(this, R.color.black))
+        tvDesc.alpha = 0.75f
+        tvDesc.setTextSize(12f)
+        tvDesc.maxLines = 2
+        tvDesc.ellipsize = android.text.TextUtils.TruncateAt.END
+        tvDesc.setPadding(0, dp(6), 0, 0)
+
         val precioBase = p.precioBase
         val precioFinal = p.precioFinal
 
@@ -258,7 +304,7 @@ class PromocionesActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        tvOriginal.text = if (precioBase != null) "Antes: S/ ${precioBase}" else ""
+        tvOriginal.text = if (precioBase != null) "Antes: $${precioBase}" else ""
         tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.black))
         tvOriginal.alpha = 0.7f
         tvOriginal.setTextSize(12f)
@@ -270,17 +316,100 @@ class PromocionesActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        tvOferta.text = if (precioFinal != null) "Oferta: S/ ${precioFinal}" else "Oferta disponible"
+        tvOferta.text = if (precioFinal != null) "Oferta: $${precioFinal}" else "Oferta disponible"
         tvOferta.setTextColor(ContextCompat.getColor(this, R.color.naranja))
         tvOferta.setTextSize(14f)
         tvOferta.setPadding(0, dp(2), 0, 0)
 
+        val v = p.variantes.firstOrNull()
+        val talla = v?.talla?.trim().orEmpty().ifBlank { "Única" }
+        val color = v?.color?.trim().orEmpty().ifBlank { "Sin color" }
+        val stock = v?.stock
+        val tvVar = TextView(this)
+        tvVar.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        tvVar.text = "Variante: $talla · $color" + if (stock != null) " · Stock: $stock" else ""
+        tvVar.setTextColor(ContextCompat.getColor(this, R.color.black))
+        tvVar.alpha = 0.75f
+        tvVar.setTextSize(12f)
+        tvVar.setPadding(0, dp(6), 0, 0)
+
+        val btnAgregar = MaterialButton(this)
+        btnAgregar.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        btnAgregar.text = "Agregar al carrito"
+        btnAgregar.isAllCaps = false
+        btnAgregar.setIconResource(R.drawable.ic_cart_nav_24)
+        btnAgregar.iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
+        btnAgregar.iconPadding = dp(8)
+        btnAgregar.setBackgroundColor(ContextCompat.getColor(this, R.color.lavender))
+        btnAgregar.setTextColor(ContextCompat.getColor(this, R.color.black))
+        btnAgregar.setOnClickListener { agregarPromoAlCarrito(p) }
+
         content.addView(img)
         content.addView(tvNombre)
+        content.addView(tvDesc)
         content.addView(tvOriginal)
         content.addView(tvOferta)
+        content.addView(tvVar)
+        content.addView(btnAgregar)
         card.addView(content)
+        card.setOnClickListener {
+            val intent = Intent(this, DetalleProductoActivity::class.java)
+            intent.putExtra("producto_json", Gson().toJson(p))
+            intent.putExtra("producto_id", p.id)
+            startActivity(intent)
+        }
         return card
+    }
+
+    private fun agregarPromoAlCarrito(p: CatalogoProductoResponse) {
+        if (!SharedPreferencesManager.estaAutenticado()) {
+            AppMensaje.enviarMensaje(binding.root, "Inicia sesión para agregar al carrito.", TipoMensaje.ADVERTENCIA)
+            irALogin()
+            return
+        }
+        val variante = p.variantes.firstOrNull { it.stock == null || it.stock > 0 } ?: p.variantes.firstOrNull()
+        if (variante?.idVariante != null) {
+            if (variante.stock != null && variante.stock <= 0) {
+                AppMensaje.enviarMensaje(binding.root, "Producto sin stock.", TipoMensaje.ADVERTENCIA)
+                return
+            }
+            carritoViewModel.agregarItem(variante.idVariante, 1)
+            return
+        }
+
+        WawakusiApiClient.retrofitService.catalogoProductos().enqueue(object : Callback<List<CatalogoProductoResponse>> {
+            override fun onResponse(
+                call: Call<List<CatalogoProductoResponse>>,
+                response: Response<List<CatalogoProductoResponse>>
+            ) {
+                if (!response.isSuccessful) {
+                    AppMensaje.enviarMensaje(binding.root, "No se pudo obtener el producto.", TipoMensaje.ERROR)
+                    return
+                }
+                val full = response.body()?.firstOrNull { it.id == p.id }
+                val v = full?.variantes?.firstOrNull { it.stock == null || it.stock > 0 } ?: full?.variantes?.firstOrNull()
+                val idVar = v?.idVariante
+                if (idVar == null) {
+                    AppMensaje.enviarMensaje(binding.root, "No hay variante disponible para este producto.", TipoMensaje.ADVERTENCIA)
+                    return
+                }
+                if (v.stock != null && v.stock <= 0) {
+                    AppMensaje.enviarMensaje(binding.root, "Producto sin stock.", TipoMensaje.ADVERTENCIA)
+                    return
+                }
+                carritoViewModel.agregarItem(idVar, 1)
+            }
+
+            override fun onFailure(call: Call<List<CatalogoProductoResponse>>, t: Throwable) {
+                AppMensaje.enviarMensaje(binding.root, "No se pudo conectar con el servidor.", TipoMensaje.ERROR)
+            }
+        })
     }
 
     private fun dp(value: Int): Int {

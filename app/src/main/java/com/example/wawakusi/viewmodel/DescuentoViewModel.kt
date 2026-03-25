@@ -11,6 +11,7 @@ class DescuentoViewModel : ViewModel() {
     var promocionesAdminResponse: LiveData<List<PromocionAdminResponse>>
     var crearPromocionAdminResponse: LiveData<MessageResponse>
     var eliminarPromocionAdminResponse: LiveData<MessageResponse>
+    var actualizarEstadoPromocionAdminResponse: LiveData<MessageResponse>
 
     private var repository = DescuentoRepository()
 
@@ -18,6 +19,7 @@ class DescuentoViewModel : ViewModel() {
         promocionesAdminResponse = repository.promocionesAdminResponse
         crearPromocionAdminResponse = repository.crearPromocionAdminResponse
         eliminarPromocionAdminResponse = repository.eliminarPromocionAdminResponse
+        actualizarEstadoPromocionAdminResponse = repository.actualizarEstadoPromocionAdminResponse
     }
 
     fun listarPromocionesAdmin() {
@@ -30,6 +32,10 @@ class DescuentoViewModel : ViewModel() {
 
     fun eliminarPromocionAdmin(id: Int) {
         eliminarPromocionAdminResponse = repository.eliminarPromocionAdmin(id)
+    }
+
+    fun actualizarEstadoPromocionAdmin(id: Int, estado: Int) {
+        actualizarEstadoPromocionAdminResponse = repository.actualizarEstadoPromocionAdmin(id, estado)
     }
 }
 

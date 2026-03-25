@@ -85,6 +85,8 @@ class ProductRepository {
     fun crearProducto(
         nombre: String,
         precio: String,
+        talla: String?,
+        color: String?,
         cantidad: String,
         descripcion: String,
         imagenBytes: ByteArray,
@@ -96,11 +98,13 @@ class ProductRepository {
         val textPlain = MediaType.parse("text/plain")
         val rbNombre = RequestBody.create(textPlain, nombre)
         val rbPrecio = RequestBody.create(textPlain, precio)
+        val rbTalla = RequestBody.create(textPlain, (talla ?: "").trim())
+        val rbColor = RequestBody.create(textPlain, (color ?: "").trim())
         val rbCantidad = RequestBody.create(textPlain, cantidad)
         val rbDescripcion = RequestBody.create(textPlain, descripcion)
 
         val call: Call<MessageResponse> =
-            WawakusiApiClient.retrofitService.crearProducto(rbNombre, rbPrecio, rbCantidad, rbDescripcion, partImage)
+            WawakusiApiClient.retrofitService.crearProducto(rbNombre, rbPrecio, rbTalla, rbColor, rbCantidad, rbDescripcion, partImage)
 
         call.enqueue(object : Callback<MessageResponse> {
             override fun onResponse(call: Call<MessageResponse>, response: Response<MessageResponse>) {
@@ -133,6 +137,8 @@ class ProductRepository {
         id: Int,
         nombre: String,
         precio: String,
+        talla: String?,
+        color: String?,
         cantidad: String,
         descripcion: String,
         imagenBytes: ByteArray?,
@@ -141,6 +147,8 @@ class ProductRepository {
         val textPlain = MediaType.parse("text/plain")
         val rbNombre = RequestBody.create(textPlain, nombre)
         val rbPrecio = RequestBody.create(textPlain, precio)
+        val rbTalla = RequestBody.create(textPlain, (talla ?: "").trim())
+        val rbColor = RequestBody.create(textPlain, (color ?: "").trim())
         val rbCantidad = RequestBody.create(textPlain, cantidad)
         val rbDescripcion = RequestBody.create(textPlain, descripcion)
 
@@ -155,6 +163,8 @@ class ProductRepository {
             id,
             rbNombre,
             rbPrecio,
+            rbTalla,
+            rbColor,
             rbCantidad,
             rbDescripcion,
             partImage

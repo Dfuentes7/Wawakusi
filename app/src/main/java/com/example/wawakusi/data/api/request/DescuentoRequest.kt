@@ -9,3 +9,7 @@ data class CrearDescuentoRequest(
     val productoId: Int
 )
 
+data class ActualizarEstadoDescuentoRequest(
+    val estado: Int
+)
+

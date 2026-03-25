@@ -11,6 +11,22 @@
     <color name="lavender">#fceedd</color>
     <color name="naranja">#e1664b</color>
 
+    <color name="dashboard_card_blue_bg">#EAF2FF</color>
+    <color name="dashboard_card_blue_stroke">#CFE1FF</color>
+    <color name="dashboard_card_blue_accent">#2D6CDF</color>
+
+    <color name="dashboard_card_green_bg">#EAF8F0</color>
+    <color name="dashboard_card_green_stroke">#C7F0D8</color>
+    <color name="dashboard_card_green_accent">#148A52</color>
+
+    <color name="dashboard_card_purple_bg">#F1ECFF</color>
+    <color name="dashboard_card_purple_stroke">#DDCEFF</color>
+    <color name="dashboard_card_purple_accent">#6F3DFF</color>
+
+    <color name="dashboard_card_orange_bg">#FFF0EB</color>
+    <color name="dashboard_card_orange_stroke">#FFD5C7</color>
+    <color name="dashboard_card_orange_accent">#E1664B</color>
+
     <!--    <!–Tipo Mensaje–>-->
     <color name="error">#E30202</color>
     <color name="info">#2574AF</color>

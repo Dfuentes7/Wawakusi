@@ -57,6 +57,7 @@ class AdminPromocionesActivity : AppCompatActivity(), NavigationView.OnNavigatio
 
     private var productosCatalogo: List<CatalogoProductoResponse> = emptyList()
     private var idPromocionEliminando: Int? = null
+    private var estadoObjetivoPromocion: Int? = null
 
     private val sesionExpiradaReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -116,6 +117,17 @@ class AdminPromocionesActivity : AppCompatActivity(), NavigationView.OnNavigatio
             if (resp?.rpta == true || (resp?.message != null && !msg.contains("No se pudo"))) {
                 AppMensaje.enviarMensaje(binding.root, msg, TipoMensaje.CORRECTO)
                 idPromocionEliminando = null
+                cargarPromociones()
+            } else {
+                AppMensaje.enviarMensaje(binding.root, msg, TipoMensaje.ERROR)
+            }
+        })
+        descuentoViewModel.actualizarEstadoPromocionAdminResponse.observe(this, Observer { resp ->
+            val msg = resp?.message ?: resp?.mensaje ?: "Operación realizada."
+            if (resp?.rpta == true || (resp?.message != null && !msg.contains("No se pudo"))) {
+                AppMensaje.enviarMensaje(binding.root, msg, TipoMensaje.CORRECTO)
+                idPromocionEliminando = null
+                estadoObjetivoPromocion = null
                 cargarPromociones()
             } else {
                 AppMensaje.enviarMensaje(binding.root, msg, TipoMensaje.ERROR)
@@ -265,17 +277,19 @@ class AdminPromocionesActivity : AppCompatActivity(), NavigationView.OnNavigatio
 
     private fun renderPromocionesAdmin(promos: List<PromocionAdminResponse>) {
         setLoadingPromos(false)
-        val container = binding.promosContainer
-        container.removeAllViews()
+        val activas = promos.filter { it.estado == 1 }
+        val inactivas = promos.filter { it.estado != 1 }
 
-        binding.tvPromosCount.text = "(${promos.size})"
-        binding.tvPromosAdminVacio.visibility = if (promos.isEmpty()) View.VISIBLE else View.GONE
+        binding.promosContainer.removeAllViews()
+        binding.promosInactivasContainer.removeAllViews()
 
-        if (promos.isEmpty()) return
+        binding.tvPromosCount.text = "(${activas.size})"
+        binding.tvPromosAdminVacio.visibility = if (activas.isEmpty()) View.VISIBLE else View.GONE
+        for (p in activas) binding.promosContainer.addView(crearTarjetaPromocion(p))
 
-        for (p in promos) {
-            container.addView(crearTarjetaPromocion(p))
-        }
+        binding.tvPromosInactivasCount.text = "(${inactivas.size})"
+        binding.tvPromosInactivasVacio.visibility = if (inactivas.isEmpty()) View.VISIBLE else View.GONE
+        for (p in inactivas) binding.promosInactivasContainer.addView(crearTarjetaPromocion(p))
     }
 
     private fun crearTarjetaPromocion(p: PromocionAdminResponse): MaterialCardView {
@@ -330,36 +344,49 @@ class AdminPromocionesActivity : AppCompatActivity(), NavigationView.OnNavigatio
         tvFecha.alpha = 0.75f
         tvFecha.setTextSize(13f)
 
-        val btnEliminar = MaterialButton(this)
-        btnEliminar.layoutParams = ViewGroup.LayoutParams(
+        val btnAccion = MaterialButton(this)
+        btnAccion.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        btnEliminar.text = "Eliminar"
-        btnEliminar.isAllCaps = false
-        btnEliminar.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
-        btnEliminar.setTextColor(ContextCompat.getColor(this, R.color.blanco))
-        btnEliminar.setOnClickListener {
-            confirmarEliminacion(p)
+        btnAccion.isAllCaps = false
+        val activar = p.estado != 1
+        btnAccion.text = if (activar) "Activar" else "Desactivar"
+        btnAccion.setBackgroundColor(
+            ContextCompat.getColor(this, if (activar) R.color.lavender else R.color.naranja)
+        )
+        btnAccion.setTextColor(
+            ContextCompat.getColor(this, if (activar) R.color.black else R.color.blanco)
+        )
+        btnAccion.setOnClickListener {
+            confirmarCambioEstado(p, if (activar) 1 else 0)
         }
 
         content.addView(tvTitulo)
         content.addView(tvProducto)
         content.addView(tvFecha)
-        content.addView(btnEliminar)
+        content.addView(btnAccion)
         card.addView(content)
         return card
     }
 
-    private fun confirmarEliminacion(p: PromocionAdminResponse) {
+    private fun confirmarCambioEstado(p: PromocionAdminResponse, estadoObjetivo: Int) {
+        val accion = if (estadoObjetivo == 1) "Activar" else "Desactivar"
+        val titulo = if (estadoObjetivo == 1) "Activar promoción" else "Desactivar promoción"
+        val mensaje = if (estadoObjetivo == 1) {
+            "¿Deseas activar la promoción “${p.nombre}”?"
+        } else {
+            "¿Deseas desactivar la promoción “${p.nombre}”?"
+        }
         AlertDialog.Builder(this)
-            .setTitle("Eliminar promoción")
-            .setMessage("¿Deseas eliminar la promoción “${p.nombre}”?")
+            .setTitle(titulo)
+            .setMessage(mensaje)
             .setNegativeButton("Cancelar", null)
-            .setPositiveButton("Eliminar") { _, _ ->
+            .setPositiveButton(accion) { _, _ ->
                 idPromocionEliminando = p.id
+                estadoObjetivoPromocion = estadoObjetivo
                 setLoadingPromos(true)
-                descuentoViewModel.eliminarPromocionAdmin(p.id)
+                descuentoViewModel.actualizarEstadoPromocionAdmin(p.id, estadoObjetivo)
             }
             .show()
     }
@@ -377,8 +404,8 @@ class AdminPromocionesActivity : AppCompatActivity(), NavigationView.OnNavigatio
         when (item.itemId) {
             MenuDinamico.ITEM_ADMIN_DASHBOARD -> startActivity(Intent(this, AdminPanelActivity::class.java))
             MenuDinamico.ITEM_ADMIN_PRODUCTOS -> startActivity(Intent(this, AdminProductosActivity::class.java))
-            MenuDinamico.ITEM_ADMIN_PEDIDOS -> AppMensaje.enviarMensaje(binding.root, "Función en construcción: Gestionar pedidos", TipoMensaje.INFORMACION)
-            MenuDinamico.ITEM_ADMIN_REPORTES -> AppMensaje.enviarMensaje(binding.root, "Función en construcción: Visualizar reportes", TipoMensaje.INFORMACION)
+            MenuDinamico.ITEM_ADMIN_PEDIDOS -> startActivity(Intent(this, AdminPedidosActivity::class.java))
+            MenuDinamico.ITEM_ADMIN_REPORTES -> startActivity(Intent(this, AdminReportesActivity::class.java))
             MenuDinamico.ITEM_ADMIN_PROMOCIONES -> {}
             MenuDinamico.ITEM_ADMIN_USUARIOS -> startActivity(Intent(this, AdminUsuariosRolesActivity::class.java))
             MenuDinamico.ITEM_PERFIL -> startActivity(Intent(this, PerfilActivity::class.java))

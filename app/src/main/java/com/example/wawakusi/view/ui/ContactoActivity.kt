@@ -124,6 +124,12 @@ class ContactoActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             MenuDinamico.ITEM_PERFIL -> {
                 startActivity(Intent(this, PerfilActivity::class.java))
             }
+            MenuDinamico.ITEM_CARRITO -> {
+                startActivity(Intent(this, CarritoActivity::class.java))
+            }
+            MenuDinamico.ITEM_MIS_PEDIDOS -> {
+                startActivity(Intent(this, MisPedidosActivity::class.java))
+            }
             MenuDinamico.ITEM_ADMIN -> {
                 startActivity(Intent(this, AdminPanelActivity::class.java))
             }

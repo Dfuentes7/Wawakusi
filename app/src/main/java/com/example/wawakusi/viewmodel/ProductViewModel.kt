@@ -41,29 +41,34 @@ class ProductViewModel : ViewModel() {
     fun crearProducto(
         nombre: String,
         precio: String,
+        talla: String?,
+        color: String?,
         cantidad: String,
         descripcion: String,
         imagenBytes: ByteArray,
         mimeType: String
     ) {
-        crearProductoResponse = repository.crearProducto(nombre, precio, cantidad, descripcion, imagenBytes, mimeType)
+        crearProductoResponse = repository.crearProducto(nombre, precio, talla, color, cantidad, descripcion, imagenBytes, mimeType)
     }
 
     fun actualizarProducto(
         id: Int,
         nombre: String,
         precio: String,
+        talla: String?,
+        color: String?,
         cantidad: String,
         descripcion: String,
         imagenBytes: ByteArray?,
         mimeType: String?
     ) {
         actualizarProductoResponse =
-            repository.actualizarProducto(id, nombre, precio, cantidad, descripcion, imagenBytes, mimeType)
+            repository.actualizarProducto(id, nombre, precio, talla, color, cantidad, descripcion, imagenBytes, mimeType)
     }
 
     fun eliminarProducto(id: Int) {
         eliminarProductoResponse = repository.eliminarProducto(id)
     }
 }
+
 

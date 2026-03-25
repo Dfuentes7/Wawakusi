@@ -13,3 +13,13 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+
+# Ignorar todo el directorio .idea
+.idea/
+
+# También es buena práctica ignorar otros archivos comunes
+*.iml
+.DS_Store
+/build/
+/local.properties
