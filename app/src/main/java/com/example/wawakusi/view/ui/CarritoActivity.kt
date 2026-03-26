@@ -31,6 +31,7 @@ import com.example.wawakusi.util.MenuDinamico
 import com.example.wawakusi.util.SharedPreferencesManager
 import com.example.wawakusi.util.TipoMensaje
 import com.example.wawakusi.viewmodel.CarritoViewModel
+import com.example.wawakusi.workers.RecordatorioWorker
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
@@ -101,6 +102,9 @@ class CarritoActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             irALogin()
             return
         }
+        try {
+            RecordatorioWorker.cancelCartReminder(this)
+        } catch (_: Exception) {}
 
         binding.btnExplorar.setOnClickListener {
             startActivity(Intent(this, TiendaActivity::class.java))

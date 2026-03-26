@@ -37,6 +37,9 @@ import com.google.android.material.navigation.NavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class AdminPanelActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -221,7 +224,7 @@ class AdminPanelActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
             val label = TextView(this)
             label.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            label.text = (i.dia ?: "-").takeLast(5)
+            label.text = diaLabel(i.dia)
             label.setTextColor(ContextCompat.getColor(this, R.color.black))
             label.textSize = 10f
             label.alpha = 0.75f
@@ -232,6 +235,31 @@ class AdminPanelActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             col.addView(label)
             container.addView(col)
         }
+    }
+
+    private fun diaLabel(raw: String?): String {
+        val s = raw?.trim().orEmpty()
+        if (s.isBlank()) return "-"
+
+        val isoDate = Regex("""\d{4}-\d{2}-\d{2}""").find(s)?.value
+        if (isoDate != null) {
+            val parsed = parseDateUtc(isoDate, "yyyy-MM-dd")
+            if (parsed != null) return formatDateUtc(parsed, "dd/MM")
+        }
+
+        val parsedIso =
+            parseDateUtc(s, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") ?: parseDateUtc(s, "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        if (parsedIso != null) return formatDateUtc(parsedIso, "dd/MM")
+
+        return if (s.length >= 5) s.takeLast(5) else s
+    }
+
+    private fun parseDateUtc(input: String, pattern: String) = runCatching {
+        SimpleDateFormat(pattern, Locale.US).apply { timeZone = TimeZone.getTimeZone("UTC") }.parse(input)
+    }.getOrNull()
+
+    private fun formatDateUtc(date: java.util.Date, pattern: String): String {
+        return SimpleDateFormat(pattern, Locale.getDefault()).apply { timeZone = TimeZone.getTimeZone("UTC") }.format(date)
     }
 
     private fun renderEstados(items: List<com.example.wawakusi.data.api.response.ReportePorEstadoResponse>) {

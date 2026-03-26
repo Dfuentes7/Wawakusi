@@ -4,12 +4,15 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -28,6 +31,7 @@ import com.example.wawakusi.util.MenuDinamico
 import com.example.wawakusi.util.SharedPreferencesManager
 import com.example.wawakusi.util.TipoMensaje
 import com.example.wawakusi.viewmodel.CarritoViewModel
+import com.example.wawakusi.workers.RecordatorioWorker
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import java.util.Locale
@@ -83,6 +87,10 @@ class DetalleProductoActivity : AppCompatActivity(), NavigationView.OnNavigation
             if (resp?.rpta == true || (resp?.message != null && !msg.contains("No se pudo"))) {
                 AppMensaje.enviarMensaje(binding.root, msg, TipoMensaje.CORRECTO)
                 try {
+                    solicitarPermisoNotificaciones()
+                    SharedPreferencesManager.guardarCartCount(maxOf(SharedPreferencesManager.obtenerCartCount(), 1))
+                    RecordatorioWorker.notifyCartNow(this@DetalleProductoActivity)
+                    RecordatorioWorker.scheduleCartReminder(this@DetalleProductoActivity, 1)
                     carritoViewModel.obtenerMiCarrito()
                     carritoViewModel.carritoResponse.observe(this, Observer { c ->
                         if (c != null && c.rpta) {
@@ -125,6 +133,22 @@ class DetalleProductoActivity : AppCompatActivity(), NavigationView.OnNavigation
         // La variante se mostrará como texto; sin desplegable
         binding.btnAgregarCarrito.setOnClickListener {
             agregarAlCarrito()
+        }
+    }
+
+    private fun solicitarPermisoNotificaciones() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            val granted = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+            if (!granted) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    1001
+                )
+            }
         }
     }
 

@@ -35,6 +35,7 @@ import com.example.wawakusi.util.SharedPreferencesManager
 import com.example.wawakusi.util.TipoMensaje
 import com.example.wawakusi.viewmodel.CarritoViewModel
 import com.example.wawakusi.viewmodel.ProductViewModel
+import com.example.wawakusi.workers.RecordatorioWorker
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
@@ -102,6 +103,10 @@ class PromocionesActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             if (resp?.rpta == true || (resp?.message != null && !msg.contains("No se pudo"))) {
                 AppMensaje.enviarMensaje(binding.root, msg, TipoMensaje.CORRECTO)
                 try {
+                    solicitarPermisoNotificaciones()
+                    SharedPreferencesManager.guardarCartCount(kotlin.math.max(SharedPreferencesManager.obtenerCartCount(), 1))
+                    RecordatorioWorker.notifyCartNow(this@PromocionesActivity)
+                    RecordatorioWorker.scheduleCartReminder(this@PromocionesActivity, 1)
                     carritoViewModel.obtenerMiCarrito()
                 } catch (_: Exception) {}
             } else {
@@ -120,6 +125,22 @@ class PromocionesActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         binding.gridPromos.removeAllViews()
         setLoadingPromos(true)
         productViewModel.listarPromociones()
+    }
+
+    private fun solicitarPermisoNotificaciones() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            val granted = androidx.core.content.ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            if (!granted) {
+                androidx.core.app.ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    1002
+                )
+            }
+        }
     }
 
     override fun onStart() {

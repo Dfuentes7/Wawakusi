@@ -21,6 +21,9 @@ object SharedPreferencesManager {
     private const val KEY_TOKEN_EXP_AT = "token_exp_at"
     private const val KEY_USUARIO = "usuario"
     private const val KEY_ROL = "rol"
+    private const val KEY_CART_COUNT = "cart_count"
+    private const val KEY_PROMOS_SIGNATURE = "promos_signature"
+    private const val KEY_PROMOS_SEEDED = "promos_seeded"
 
     private fun prefs() = MiApp.instancia.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
@@ -63,6 +66,9 @@ object SharedPreferencesManager {
             .remove(KEY_TOKEN_EXP_AT)
             .remove(KEY_USUARIO)
             .remove(KEY_ROL)
+            .remove(KEY_CART_COUNT)
+            .remove(KEY_PROMOS_SIGNATURE)
+            .remove(KEY_PROMOS_SEEDED)
             .apply()
     }
 
@@ -89,6 +95,24 @@ object SharedPreferencesManager {
             null
         }
     }
+
+    fun guardarCartCount(count: Int) {
+        prefs().edit().putInt(KEY_CART_COUNT, count).apply()
+    }
+
+    fun obtenerCartCount(): Int = prefs().getInt(KEY_CART_COUNT, 0)
+
+    fun guardarPromosSignature(signature: String) {
+        prefs().edit().putString(KEY_PROMOS_SIGNATURE, signature).apply()
+    }
+
+    fun obtenerPromosSignature(): String? = prefs().getString(KEY_PROMOS_SIGNATURE, null)
+
+    fun marcarPromosSeeded() {
+        prefs().edit().putBoolean(KEY_PROMOS_SEEDED, true).apply()
+    }
+
+    fun promosSeeded(): Boolean = prefs().getBoolean(KEY_PROMOS_SEEDED, false)
 }
 
 object MenuDinamico {
@@ -218,6 +242,7 @@ object MenuDinamico {
             } catch (_: Exception) {}
         }
         val badgeView = item.actionView?.findViewById<TextView>(R.id.tvBadge) ?: return
+        SharedPreferencesManager.guardarCartCount(count)
         if (count > 0) {
             badgeView.text = if (count > 99) "99+" else count.toString()
             badgeView.visibility = android.view.View.VISIBLE
